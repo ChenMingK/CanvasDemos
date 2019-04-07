@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" style="margin:0 auto; border: 1px solid gray;"></canvas>
+<script>
+    window.onload = function(){
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+
+        context.font = 'bold 40px Arial';
+        context.fillStyle = '#058';
+        context.strokeStyle = '#058';
+        context.fillText('Hello Canvas!',40, 100);
+        context.strokeText('Hello Canvas!', 40, 200);
+
+        context.fillText('Hello Canvas!',40, 300, 200);
+        context.strokeText('Hello Canvas!', 40, 400, 200);
+
+        let linearGrad = context.createLinearGradient(0, 0, 800, 0);
+        linearGrad.addColorStop(0.0, 'red');
+        linearGrad.addColorStop(0.25, 'orange');
+        linearGrad.addColorStop(0.5, 'yellow');
+        linearGrad.addColorStop(0.75, 'green');
+        linearGrad.addColorStop(1.0, 'purple');
+        context.fillStyle = linearGrad;
+        context.fillText('Hello Canvas!', 40, 500, 400);
+        //Pattern also
+
+        let img = new Image();
+        img.src = '3.jpg';
+        img.onload = function () {
+            let pattern = context.createPattern(img, 'repeat');
+            context.fillStyle = pattern;
+            context.font = 'bold 100px Arial';
+            context.fillText('Canvas!', 40, 600);
+            context.strokeText('Canvas', 40, 600);
+        }
+
+    }
+</script>
+</body>
+</html>
+
+<!--
+context.font = 'bold 40px Arial' 设置字体样式，同CSS
+context.fillText(string, x, y, [maxlen]) 想要书写的字符串 & 位置  最长宽度（可选）
+context.strokeText(string, x, y, [maxlen]) 绘制文字边框？
+-->

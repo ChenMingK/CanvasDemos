@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+    <style>
+        #buttons{
+            width:1200px;
+            margin:10px auto;
+            clear: both;
+        }
+        #buttons a{
+            font-size:18px;
+            display: block;
+            float: left;
+            margin-left:10px;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas" style="margin:0px auto; border: 1px solid gray; display: block;margin: 10px auto;">
+    当前浏览器不支持Canvas
+</canvas>
+<div id="buttons">
+    <a href="#">source-over</a>
+    <a href="#">source-atop</a>
+    <a href="#">source-in</a>
+    <a href="#">source-out</a>
+    <a href="#">destination-over</a>
+    <a href="#">destination-atop</a>
+    <a href="#">destination-in</a>
+    <a href="#">destination-out</a>
+    <a href="#">lighter</a>
+    <a href="#">copy</a>
+    <a href="#">xor</a>
+</div>
+<script>
+    window.onload = function(){  //事件绑定
+        draw('source-over');
+        let buttons = document.getElementById('buttons').getElementsByTagName('a');
+        for(let i=0; i<buttons.length; i++){
+            buttons[i].onclick = function () {
+                draw(this.text);  //text attribute
+                return false;
+            }
+        }
+    }
+
+    function draw(compositeStyle){
+        let canvas = document.getElementById('canvas');
+        canvas.width = 1200;
+        canvas.height = 800;
+
+        let cxt = canvas.getContext('2d');
+        cxt.clearRect(0, 0, canvas.width, canvas.height);
+        //draw title
+        cxt.font = 'bold 40px Arial';
+        cxt.textAlign = 'center';
+        cxt.textBaseline = 'middle';
+        cxt.fillStyle = '#058';
+        cxt.fillText('globalCompositeOperation = ' + compositeStyle, canvas.width/2, 60);
+
+        //draw a Rect
+        cxt.fillStyle = 'blue';
+        cxt.fillRect(300, 150, 500, 500);
+
+        //draw a triangle
+        cxt.globalCompositeOperation = compositeStyle;
+        cxt.fillStyle = 'red';
+        cxt.beginPath();
+        cxt.moveTo(700, 250);
+        cxt.lineTo(1000, 750);
+        cxt.lineTo(400, 750);
+        cxt.closePath();
+        cxt.fill();
+
+    }
+</script>
+</body>
+</html>
+<!--
+globalCompositeOperation = 'source-over'   (Default)  后绘制的图片会覆盖之前的
+PS:source指后绘制的图形  destination
+source-over: 后绘制的图形覆盖之前的图形
+source-atop:后绘制的图形覆盖之前的图形，但后绘制的图形被之前绘制的图形制定了界限
+source-in:后绘制的图形被切割且只显示后绘制的，保留界限（由之前的图形制定）内的
+source-out:只显示后绘制的，被切割，保留界限外的部分
+destination-over:先压后
+destination-atop:
+destination-in:
+destination-out:
+lighter:重叠部分颜色值重新计算
+copy:纯粹的只绘制后绘制的图形？
+xor:重叠部分为空白
+-->

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+context.arc(
+    centerx,centery,radius,     圆心坐标 & 半径
+    startingAngle,endingAngle,  开始/结束角度
+    anticlockwise = false       顺时针-false/逆时针
+-->
+<canvas id="canvas" width="1024" height="700" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+
+        /*context.lineWidth = 5;
+        context.strokeStyle = '#005588';
+        context.arc(300, 300, 200, 0, 2*Math.PI, true);
+        context.stroke();*/
+
+        //画多个弧
+        context.lineWidth = 5;
+        context.strokeStyle = '#005588';
+        for(let i=0;i<10;i++){
+            context.beginPath();   //每次调用该方法，有一种重新初始化的效果？不会重复绘制之前的路径
+            context.arc(50+i*100, 60, 40, 0, 2*Math.PI*(i+1)/10)
+            context.closePath();  //如果当前状态的路径不是封闭的路径，该方法会自动添加一个首尾相连的线
+            context.stroke();
+        }
+        for(let i=0;i<10;i++){
+            context.beginPath();   //每次调用该方法，有一种重新初始化的效果？不会重复绘制之前的路径
+            context.arc(50+i*100, 200, 40, 0, 2*Math.PI*(i+1)/10)
+//            context.closePath();  //如果当前状态的路径不是封闭的路径，该方法会自动添加一个首尾相连的线
+            context.stroke();
+        }
+        for(let i=0;i<10;i++){
+            context.beginPath();   //每次调用该方法，有一种重新初始化的效果？不会重复绘制之前的路径
+            context.arc(50+i*100, 400, 40, 0, 2*Math.PI*(i+1)/10,true)
+            context.closePath();  //如果当前状态的路径不是封闭的路径，该方法会自动添加一个首尾相连的线
+            context.stroke();
+        }
+        for(let i=0;i<10;i++){
+            context.beginPath();   //每次调用该方法，有一种重新初始化的效果？不会重复绘制之前的路径
+            context.arc(50+i*100, 600, 40, 0, 2*Math.PI*(i+1)/10,true)
+            context.closePath();  //如果当前状态的路径不是封闭的路径，该方法会自动添加一个首尾相连的线
+            context.stroke();
+            context.fillStyle = '#005588';
+            context.fill();               //fill方法无论路径是否是首尾相连的都只会填充一个封闭的图形
+            //PS:但是删除掉closePath的话会有细微的差别,图形会变得很不美观
+        }
+    }
+</script>
+</body>
+</html>

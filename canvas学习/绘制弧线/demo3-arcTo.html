@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渐变</title>
+</head>
+<body>
+<canvas id="canvas" style="margin:0 auto; border: 1px solid gray; display: block;"></canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+        arcToTest(context, 150, 100, 650, 100, 650, 600, 600);
+
+       
+    }
+
+    function arcToTest(cxt, x0, y0, x1, y1, x2, y2, R){
+        cxt.beginPath();
+        cxt.moveTo(x0,y0);
+        cxt.arcTo(x1, y1, x2, y2, R);
+
+        cxt.lineWidth = 6;
+        cxt.strokeStyle = 'red';
+        cxt.stroke();
+
+        //baseline
+        cxt.beginPath();
+        cxt.moveTo(x0, y0);
+        cxt.lineTo(x1, y1);
+        cxt.lineTo(x2, y2);
+        cxt.lineWidth = 2;
+        cxt.strokeStyle = 'gray';
+        cxt.stroke();
+    }
+
+    
+</script>
+</body>
+</html>
+
+<!--
+context.arcTo(
+    x1,y1,x2,y2,radius  
+)
+-->

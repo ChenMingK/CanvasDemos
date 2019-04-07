@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" style="margin:0 auto; border: 1px solid gray;"></canvas>
+<script>
+    window.onload = function(){
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+
+        context.fillStyle = '#058';
+
+       /* context.font = 'bold 40px sans-serif';
+        context.fillText('学习使我快乐！', 40, 100);
+
+        context.font = 'italic bold 40px sans-serif';
+        context.fillText('学习使我快乐！', 40, 200);
+
+        context.font = 'oblique bold 40px sans-serif';
+        context.fillText('学习使我快乐！', 40, 300);*/
+
+        context.font = 'bold 40px sans-serif';
+        context.fillText('学习Canvas使我快乐！', 40, 200);
+
+        context.font = 'small-caps bold 40px sans-serif';
+        context.fillText('学习Canvas使我快乐！', 40, 300);
+
+    }
+</script>
+</body>
+</html>
+
+<!--
+context.font = 'bold 40px Arial' 设置字体样式，同CSS
+context.fillText(string, x, y, [maxlen]) 想要书写的字符串 & 位置  最长宽度（可选）
+context.strokeText(string, x, y, [maxlen]) 绘制文字边框？
+
+font:默认值 '20px sans-serif'
+context.font = font-style font-variant font-weight font-size font-family
+font-style:normal(Default)  italic(斜体字)   oblique(倾斜字体)  字体会为italic设置专门的字体，oblique只是倾斜字体 一般来说没区别
+
+font-variant:normal(Default)   small-caps(使用英文小写字母才看得出区别,小型的大写字母)
+
+font-weight:
+lighter  //new
+normal (Default)   400
+bold               700
+bolder  //new
+or 100 - 900 字体的粗细 WC3标准，浏览器不一定支持
+
+font-size
+20px (Default)
+2em
+150%
+
+font-family
+
+-->

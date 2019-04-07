@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>line</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+
+        context.fillStyle = 'black';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+//        context.lineJoin = 'miter';
+//        context.miterLimit = 20;     //使用miter作为线条相接方式时，所产生的内角与外角？的最大值（默认10像素）
+        for(let i=0; i<200; i++){
+            let r = Math.random() * 10 + 10;
+            let x = Math.random() * canvas.width;
+            let y = Math.random() * canvas.height;
+            let rotate = Math.random() * 360;
+            drawStar(context, r/2.0, r, x, y, rotate);
+        }
+
+    }
+
+    function drawStar(cxt, r, R, x, y, rot){   //x y 偏移量  rot旋转角度
+        cxt.beginPath();
+        for(let i=0; i<5; i++){
+            cxt.lineTo(Math.cos((18+i*72-rot)/180 * Math.PI)*R + x, -Math.sin((18+i*72-rot)/180 * Math.PI)*R + y);
+            cxt.lineTo(Math.cos((54+i*72-rot)/180 * Math.PI)*r + x, -Math.sin((54+i*72-rot)/180 * Math.PI)*r + y);
+        }
+        cxt.closePath();
+        cxt.fillStyle = '#fb3';
+        cxt.strokeStyle = '#fd5';
+        cxt.lineWidth = 3;
+        cxt.lineJoin = 'round';
+        cxt.fill();
+        cxt.stroke();
+
+    }
+</script>
+</body>
+</html>

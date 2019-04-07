@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>line</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        canvas.width = 1200;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+
+        let skyStyle = context.createLinearGradient(0, 0, 0, canvas.height);
+        skyStyle.addColorStop(0.0, 'black');
+        skyStyle.addColorStop(1.0, '#035');
+        context.fillStyle = skyStyle;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+//        context.lineJoin = 'miter';
+//        context.miterLimit = 20;     //使用miter作为线条相接方式时，所产生的内角与外角？的最大值（默认10像素）
+        for(let i=0; i<200; i++){
+            let r = Math.random() + 0.2;
+            let x = Math.random() * canvas.width;
+            let y = Math.random() * canvas.height * 0.65;
+            let rotate = Math.random() * 360;
+            drawStar(context, r, x, y, rotate);
+        }
+
+        fillMoon(context, 2, 900, 200, 100, 30);
+        drawLand(context);  //画绿地
+    }
+
+    //画绿地
+    function drawLand(cxt){
+        cxt.save();
+        cxt.beginPath();
+        cxt.moveTo(0,600);
+        cxt.bezierCurveTo(540, 400, 660, 800, 1200, 600);  //波浪线
+        cxt.lineTo(1200, 800);
+        cxt.lineTo(0, 800);
+        cxt.closePath();
+        cxt.restore();
+
+        let landStyle = cxt.createLinearGradient(0, 800, 0, 0);
+        landStyle.addColorStop(0.0, '#030');
+        landStyle.addColorStop(1.0, '#580');
+        cxt.fillStyle = landStyle;
+        cxt.fill();
+        cxt.restore();
+    }
+    function drawStar(cxt, r, x, y, rot){   //x y 偏移量  rot旋转角度
+        cxt.save();
+
+        cxt.translate(x, y);
+        cxt.rotate(rot / 180*Math.PI);
+        cxt.scale(r, r)
+        starPath(cxt);
+        //绘制出在(x,y)，大小为R，旋转rot度的五角星
+        cxt.fillStyle = '#fb3';
+       // cxt.strokeStyle = '#fd5';
+        //cxt.lineWidth = 3;
+        cxt.lineJoin = 'round';
+
+        cxt.fill();
+        cxt.stroke();
+        cxt.restore();
+
+    }
+    //绘制标准五角星的函数，默认外圆半径为1
+    function starPath(cxt){
+        cxt.beginPath();
+        for(let i=0; i<5; i++){
+            cxt.lineTo(Math.cos((18+i*72)/180 * Math.PI)*20, -Math.sin((18+i*72)/180 * Math.PI)*20);
+            cxt.lineTo(Math.cos((54+i*72)/180 * Math.PI)*0.5*20, -Math.sin((54+i*72)/180 * Math.PI)*0.5*20);
+        }
+        cxt.closePath();
+    }
+
+
+    //绘制弯月
+    function fillMoon(cxt, d, x, y, R, rot, /*optional*/fillColor){  //d？控制点横坐标
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot*Math.PI/180);
+        cxt.scale(R,R);
+        pathMoon(cxt, d);
+        cxt.fillStyle = fillColor || '#fb5';
+        cxt.fill();
+        cxt.restore();
+    }
+
+    function pathMoon(cxt, d){   //以(0,0)为圆心，1为半径  d：控制点位置
+        cxt.beginPath();
+        cxt.arc(0, 0, 1, 0.5*Math.PI, 1.5*Math.PI, true);  //外弧
+        cxt.moveTo(0, -1);
+        cxt.arcTo(d, 0, 0, 1, dis(0, -1, d, 0)/d);
+        cxt.closePath();  //??
+        // context.stroke();
+    }
+
+    function dis(x1, y1, x2, y2){
+        return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+    }
+</script>
+</body>
+</html>
+
+<!--图形变换
+位移translate(x,y)   原点坐标的位移是叠加的，一般在每次translate后又将原点移动回原坐标系
+旋转rotate(deg)
+缩放scale(sx,sy)
+
+save  保存状态
+restore 恢复上一个？状态
+这样就可以在使用图形变换之前都save一下
+-->

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+<!--不用css样式指定而直接使用属性-->
+<canvas id="canvas" width="1024" height="700" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+<script>
+    window.onload = function(){
+        let canvas = document.getElementById('canvas');
+        canvas.width = 1024;
+        canvas.height = 700;  //跟上面的区别？
+        let context;
+        if(canvas.getContext('2d')){
+            context = canvas.getContext('2d');
+        }
+        else{
+            alert('当前浏览器不支持canvas');
+        }
+        context.beginPath();
+        context.moveTo(100,100);
+        context.lineTo(600,600);
+        context.lineTo(100,600)
+        context.lineTo(100,100);
+        context.closePath();     //在不同的路径使用beginPath和closePath分隔开
+        /*
+        context.fillStyle = 'rgb(2,100,30)'; //放引号里
+        context.fill();*/
+
+        context.lineWidth = 5;
+        context.strokeStyle = 'red';
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(200,100);
+        context.lineTo(600,500);
+        context.closePath();
+        context.strokeStyle = 'black';
+        context.stroke();             //重复绘制，覆盖了之前的颜色
+
+    }
+</script>
+</body>
+</html>
