@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>line</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas')
+        canvas.width = 800
+        canvas.height = 800
+        let cxt = canvas.getContext('2d')
+        
+        cxt.strokeStyle = 'red'
+        cxt.setLineDash([10, 5])
+        cxt.strokeRect(50, 50, 80, 80)
+    }
+</script>
+</body>
+</html>

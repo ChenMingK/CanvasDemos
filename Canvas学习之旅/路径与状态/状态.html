@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" width="500" height="200" style="border: 1px solid gray; display: block; margin: 0 auto"></canvas>
+<script>
+    window.onload = function(){
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      cxt.save()
+      cxt.fillStyle = 'HotPink'
+      cxt.translate(30, 30)
+      cxt.fillRect(0, 0, 100, 50)
+      cxt.restore()
+
+      cxt.fillStyle = 'LightSkyBlue'
+      cxt.translate(60, 60)
+      cxt.fillRect(0, 0, 100, 50)
+    }
+</script>
+</body>
+</html>

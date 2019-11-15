@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" style="margin:0px auto; border: 1px solid gray; display: block;margin: 10px auto;">
+    当前浏览器不支持Canvas
+</canvas>
+<script>
+    window.onload = function () {
+      const cnv = document.getElementById('canvas')
+      const cxt = cnv.getContext('2d')
+      cnv.width = 1200;
+      cnv.height = 800;
+      // 第 1 步，绘制基本图形，用于切割
+      cxt.beginPath()
+      cxt.arc(500, 500, 300, 0, 360 * Math.PI / 180, true)
+      cxt.closePath()
+      cxt.stroke()
+
+      // 第 2 步，使用 clip() 方法，使得切割区域为上面绘制的基本图形
+      cxt.clip()
+
+      // 第 3 步，绘制一张图片
+      let image = new Image()
+      image.src = "./1.jpg"
+      image.onload = function () {
+        cxt.drawImage(image, 0, 0)
+      }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>追随鼠标旋转</title>
+  <script src="./arrow.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      // 实例化一个箭头，中心坐标为画布中心坐标
+      let arrow = new Arrow(cnv.width / 2, cnv.height / 2)
+      // 获取鼠标坐标
+      let mouse = tools.getMouse(cnv); // 这里记得加分号，封装见 tools.js
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame, cnv)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        let dx = mouse.x - cnv.width / 2
+        let dy = mouse.y - cnv.height / 2
+        // 使用 Math.atan2() 方法计算出鼠标与建投中心的夹角
+        arrow.angle = Math.atan2(dy, dx)
+
+        arrow.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

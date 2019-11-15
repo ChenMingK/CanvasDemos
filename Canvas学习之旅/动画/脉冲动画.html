@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sin 函数作用于缩放属性</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2, 25)
+      let range = 0.5
+      let angle = 0;
+
+      (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        ball.scaleX = 1 + Math.sin(angle) * range
+        ball.scaleY = 1 + Math.sin(angle) * range
+        ball.fill(cxt)
+        
+        // 角度递增
+        angle += 0.05
+      })()
+    }
+  </script>
+</body>
+</html>

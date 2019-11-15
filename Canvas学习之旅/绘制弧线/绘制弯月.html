@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渐变</title>
+</head>
+<body>
+<canvas id="canvas" style="margin:0 auto; border: 1px solid gray; display: block;"></canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+        //arcToTest(context, 150, 100, 650, 100, 650, 600, 600);
+
+        fillMoon(context, 2, 400, 400, 300, 0)
+
+
+    }
+
+    function fillMoon(cxt, d, x, y, R, rot, /*optional*/fillColor){  //d？控制点横坐标
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot*Math.PI/180);
+        cxt.scale(R,R);
+        pathMoon(cxt, d);
+        cxt.fillStyle = fillColor || '#fb5';
+        cxt.fill();
+        cxt.restore();
+    }
+
+    function pathMoon(cxt, d){   //以(0,0)为圆心，1为半径  d：控制点位置
+        cxt.beginPath();
+        cxt.arc(0, 0, 1, 0.5*Math.PI, 1.5*Math.PI, true);  //外弧
+        cxt.moveTo(0, -1);
+        cxt.arcTo(d, 0, 0, 1, dis(0, -1, d, 0)/d);
+        cxt.closePath();  //??
+       // context.stroke();
+    }
+
+    function dis(x1, y1, x2, y2){
+        return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+    }
+
+</script>
+</body>
+</html>

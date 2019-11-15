@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>循环动画</title>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      // 初始化圆的 x 轴坐标为 0
+      let x = 0;
+      // 动画循环
+      (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        // 绘制圆
+        cxt.beginPath()
+        cxt.arc(x, 70, 20, 0, 360 * Math.PI / 180, true)
+        cxt.closePath()
+        cxt.fillStyle = 'skyblue'
+        cxt.fill()
+
+        // 变量递增
+        x += 2
+      })()
+    }
+  </script>
+</body>
+</html>

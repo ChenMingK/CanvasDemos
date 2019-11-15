@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>捕获运动小球</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <p id="txt"></p>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+    
+      let ball = new Ball(0, cnv.height / 2, 20)
+      let mouse = tools.getMouse(cnv)
+      let isMouseDown = false // isMouseDown 用于标识鼠标是否按下的状态
+      let vx = 3
+
+      cnv.addEventListener('mousedown', function () {
+        // 判断鼠标点击坐标是否位于小球上，如果是，则 isMouseDown 为 true
+        if (ball.checkMouse(mouse)) {
+          isMouseDown = true
+          alert('捕获成功')
+        }
+      }, false);
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        // 如果鼠标不是按下状态，则小球继续运动，否则就会停止
+        if (!isMouseDown) {
+          ball.x += vx
+        }
+
+        ball.fill(cxt)
+      })()
+
+      // 添加鼠标移动事件
+      cnv.addEventListener('mousemove', function () {
+        // 判断鼠标当前坐标是否处于小球内
+        if (ball.checkMouse(mouse)) {
+          txt.innerHTML = '鼠标移入小球'
+        } else {
+          txt.innerHTML = '鼠标移出小球'
+        }
+      }, false)
+    }
+  </script>
+</body>
+</html>

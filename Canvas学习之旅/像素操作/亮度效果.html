@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" width="1024" height="700" style="border: 1px solid gray; display: block; margin: 0 auto"></canvas>
+<script>
+    window.onload = function(){
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let image = new Image()
+      image.src= "./image2.jpg" // 240 x 163
+
+      image.onload = function () {
+        cxt.drawImage(image, 10, 10)
+        let imageData = cxt.getImageData(10, 10, 240, 160)
+        let data = imageData.data
+        console.log(data)
+        // 遍历每个像素
+        for (let i = 0; i < data.length; i += 4) {
+          // 亮度效果，三原色同时加上或减去一个值
+          let a = 100
+          data[i + 0] += a
+          data[i + 1] += a
+          data[i + 2] += a
+        } 
+        // 在指定位置输出图片
+        cxt.putImageData(imageData, 10, 220)
+      }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>捕获静止小球</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <p id="txt"></p>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+      let txt = document.getElementById('txt')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2, 30)
+      ball.fill(cxt)
+      let mouse = tools.getMouse(cnv)
+
+      // 添加鼠标移动事件
+      cnv.addEventListener('mousemove', function () {
+        // 判断鼠标当前坐标是否处于小球内
+        if (ball.checkMouse(mouse)) {
+          txt.innerHTML = '鼠标移入小球'
+        } else {
+          txt.innerHTML = '鼠标移出小球'
+        }
+      }, false)
+    }
+  </script>
+</body>
+</html>

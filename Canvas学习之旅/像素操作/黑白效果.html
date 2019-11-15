@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" width="1024" height="700" style="border: 1px solid gray; display: block; margin: 0 auto"></canvas>
+<script>
+    window.onload = function(){
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let image = new Image()
+      image.src= "./image.jpg" // 500 x 281
+
+      image.onload = function () {
+        cxt.drawImage(image, 10, 10)
+        let imageData = cxt.getImageData(10, 10, 500, 281)
+        let data = imageData.data
+        // 遍历每个像素
+        for (let i = 0; i < data.length; i += 4) {
+          // let average = (data[i + 0] + data[i + 1] + data[i + 2]) / 3
+          let grayscale = data[i] * 0.3 + data[i + 1] * 0.6 + data[i + 2] * 0.1
+          data[i + 0] = grayscale // 红
+          data[i + 1] = grayscale // 绿
+          data[i + 2] = grayscale // 蓝
+        }
+        cxt.putImageData(imageData, 10, 300)
+      }
+    }
+</script>
+</body>
+</html>

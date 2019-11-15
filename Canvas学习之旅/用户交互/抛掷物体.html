@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>抛掷小球</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2, 20)
+      ball.fill(cxt)
+      let mouse = tools.getMouse(cnv)
+
+      let isMouseDown = false
+      let dx = 0, dy = 0
+      // oldX 和 oldY 用于存储小球旧的坐标
+      let oldX, oldY
+      // 初始速度 vx 和 vy 都为 0
+      let vx = 0, vy = 0
+
+      // 添加 mousedown 事件
+      cnv.addEventListener('mousedown', function () {
+        // 判断鼠标点击是否落在小球上
+        if (ball.checkMouse(mouse)) {
+          // 鼠标按下小球时，isMouseDown 设置为 true
+          isMouseDown = true
+          // 鼠标按下小球时，将当前鼠标位置赋值给 oldX 和 oldY
+          oldX = ball.x
+          oldY = ball.y
+          dx = mouse.x - ball.x
+          dy = mouse.y - ball.y
+          document.addEventListener('mousemove', onMouseMove, false)
+          document.addEventListener('mouseup', onMouseUp, false)
+        }
+      }, false)
+
+      function onMouseMove () {
+        // 鼠标移动时，更新小球坐标
+        ball.x = mouse.x - dx
+        ball.y = mouse.y - dy
+      }
+
+      function onMouseUp () {
+        isMouseDown = false
+        document.removeEventListener('mouseup', onMouseUp, false)
+        document.removeEventListener('mousemove', onMouseMove, false)
+      };
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        if (isMouseDown) {
+          // 如果 isMouseDown 为 true，用当前小球的位置减去上一帧的位置
+          vx = ball.x - oldX
+          vy = ball.y - oldY
+
+          // 更新 oldX 和 oldY 为当前小球位置
+          oldX = ball.x
+          oldY = ball.y
+        } else {
+          // 如果 isMouseDown 为 false，小球沿着抛掷方向运动
+          ball.x += vx
+          ball.y += vy
+        }
+        ball.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

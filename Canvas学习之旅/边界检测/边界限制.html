@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>边界线制</title>
+  <script src="./tool.js"></script>
+  <script src="./ball.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2)
+      ball.fill(cxt)
+      let key = tools.getKey()
+
+      // 添加键盘事件
+      window.addEventListener('keydown', function (e) {
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        // 根据 key.direction 的值，判断物体移动方向
+        switch (key.direction) {
+          case 'up':
+            ball.y -= 3
+            checkBorder()
+            ball.fill(cxt)
+            break
+          case 'down':
+            ball.y += 3
+            checkBorder()
+            ball.fill(cxt)
+            break
+          case 'left':
+            ball.x -= 3
+            checkBorder()
+            ball.fill(cxt)
+            break
+          case 'right':
+            ball.x += 3
+            checkBorder()
+            ball.fill(cxt)
+            break
+          default:
+            checkBorder()
+            ball.fill(cxt)
+        }
+      }, false)
+
+      // 定义边界检测函数
+      function checkBorder () {
+        if (ball.x < ball.radius) {
+          // "碰到" 左边界时做什么
+          ball.x = ball.radius
+        } else if (ball.x > cnv.width - ball.radius) {
+          // "碰到" 右边界时做什么
+          ball.x = cnv.width - ball.radius
+        } else if (ball.y < ball.radius) {
+          // "碰到" 上边界时做什么
+          ball.y = ball.radius
+        } else if (ball.y > cnv.height - ball.radius) {
+          // "碰到" 下边界时做什么
+          ball.y = cnv.height - ball.radius
+        }
+      }
+    }
+  </script>
+</body>
+</html>

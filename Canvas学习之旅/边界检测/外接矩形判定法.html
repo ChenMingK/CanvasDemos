@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>外接矩形判定法</title>
+  <script src="./tool.js"></script>
+  <script src="./ball.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <p id="msg"></p>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+      let msg = document.getElementById('msg')
+
+     // 定义一个位置固定的小球 ballA
+     let ballA = new Ball(cnv.width / 2, cnv.height / 2, 30)
+     // 获取 ballA 的外接矩形
+     let rectA = ballA.getRect()
+     let mouse = tools.getMouse(cnv);
+
+     (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        // 绘制 ballA 及它的外接矩形
+        ballA.fill(cxt)
+        cxt.strokeRect(rectA.x, rectA.y, rectA.width, rectA.height)
+
+        // 定义一个位置不固定的小球 ballB，小球追随鼠标
+        let ballB = new Ball(mouse.x, mouse.y, 30)
+        let rectB = ballB.getRect()
+
+        ballB.fill(cxt)
+        cxt.strokeRect(rectB.x, rectB.y, rectB.width, rectB.height)
+
+        // 碰撞检测
+        if (tools.checkRect(rectA, rectB)) {
+          msg.innerHTML = '撞上了'
+        } else {
+          msg.innerHTML = '没撞'
+        }
+     })()
+    }
+  </script>
+</body>
+</html>

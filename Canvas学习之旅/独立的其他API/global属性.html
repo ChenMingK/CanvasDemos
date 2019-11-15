@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" style="margin:0 auto; border: 1px solid gray;"></canvas>
+<script>
+    window.onload = function(){
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+        let context = canvas.getContext('2d');
+        context.globalAlpha = 0.7;  //即将绘制的所有内容都透明
+        for(let i=0; i<100; i++){
+            let R = Math.floor(Math.random()*255);
+            let G = Math.floor(Math.random()*255);
+            let B = Math.floor(Math.random()*255);
+
+            context.fillStyle = 'rgb(' + R + ',' + G + ',' + B + ')';
+            context.beginPath();
+            context.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*100, 0, Math.PI*2);
+            context.fill();
+        }
+    }
+</script>
+</body>
+</html>
+
+
+<!--
+globalAlpha = 1 (Default)  所有物体的透明度设置
+globalCompositeOperation = 'source-over'   (Default)  后绘制的图片会覆盖之前的
+PS:source指后绘制的图形
+-->

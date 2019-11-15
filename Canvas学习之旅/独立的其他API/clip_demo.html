@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" style="margin:0px auto; border: 1px solid gray; display: block;margin: 10px auto;">
+    当前浏览器不支持Canvas
+</canvas>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 800;
+
+        let context = canvas.getContext('2d');
+        context.beginPath();
+        context.fillStyle = 'black';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        context.beginPath();
+        context.arc(400, 400, 150, 0, Math.PI*2);
+        context.fillStyle = '#fff';
+        context.fill();
+        context.clip();
+
+        context.font = 'bold 150px Arial';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillStyle = '#058';
+        context.fillText('CANVAS', canvas.width/2, canvas.height/2);
+    }
+</script>
+</body>
+</html>
+
+<!--
+context.clip()
+剪切刚才绘制的路径作为当前绘制环境
+-->

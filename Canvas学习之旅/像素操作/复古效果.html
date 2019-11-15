@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" width="1024" height="700" style="border: 1px solid gray; display: block; margin: 0 auto"></canvas>
+<script>
+    window.onload = function(){
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let image = new Image()
+      image.src= "./image.jpg" // 500 x 281
+
+      image.onload = function () {
+        cxt.drawImage(image, 10, 10)
+        let imageData = cxt.getImageData(10, 10, 500, 281)
+        let data = imageData.data
+        console.log(data)
+        // 遍历每个像素
+        for (let i = 0; i < data.length; i += 4) {
+          let r = data[i + 0]
+          let g = data[i + 1]
+          let b = data[i + 2]
+          data[i + 0] = r * 0.39 + g * 0.76 + b * 0.18
+          data[i + 1] = r * 0.35 + g * 0.68 + b * 0.16
+          data[i + 2] = r * 0.27 + g * 0.53 + b * 0.13 // 值随便取，有一定大小规律即可
+        } 
+        // 在指定位置输出图片
+        cxt.putImageData(imageData, 10, 300)
+      }
+    }
+</script>
+</body>
+</html>

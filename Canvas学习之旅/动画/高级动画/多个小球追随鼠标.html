@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>多个小球追随鼠标</title>
+  <script src="../ball.js"></script>
+  <script src="../tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      // 初始化数据
+      let bigBall = new Ball(cnv.width / 2, cnv.height / 2, 15, '#FF6699')
+      let smallBall = new Ball(cnv.width / 2, cnv.height / 2, 12, '#66CCFF')
+
+      let mouse = tools.getMouse(cnv)
+      const easing = 0.05;
+
+      (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        // 第 1 个小球跟随鼠标移动
+        let vx1 = (mouse.x - bigBall.x) * easing
+        let vy1 = (mouse.y - bigBall.y) * easing
+        bigBall.x += vx1
+        bigBall.y += vy1
+        bigBall.fill(cxt)
+
+        // 第 2 个小球跟随第 1 个小球移动
+        let vx2 = (bigBall.x - smallBall.x) * easing
+        let vy2 = (bigBall.y - smallBall.y) * easing
+        smallBall.x += vx2
+        smallBall.y += vy2
+        smallBall.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

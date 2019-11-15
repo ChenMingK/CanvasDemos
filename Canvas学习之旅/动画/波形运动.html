@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>正圆运动</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2)
+      let angle = 0
+      let range = 80;
+
+      (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+        // 计算小球坐标
+        // ball.x = cnv.width / 2 + Math.sin(angle) * range
+        ball.x += 1
+        ball.y = cnv.height / 2 + Math.sin(angle) * range
+        ball.fill(cxt)
+
+        // 角度递增
+        angle += 0.05
+      })()
+    }
+  </script>
+</body>
+</html>

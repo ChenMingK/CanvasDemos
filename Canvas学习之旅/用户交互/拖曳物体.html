@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>捕获静止小球</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2, 20)
+      ball.fill(cxt)
+      let mouse = tools.getMouse(cnv)
+      let dx = 0, dy = 0
+
+      // 为 canvas 添加鼠标按下事件
+      cnv.addEventListener('mousedown', function () {
+        // 判断鼠标点击是否落在小球上，如果落在，就添加两个事件: mousemove, mouseup
+        if (ball.checkMouse(mouse)) {
+          dx = mouse.x - ball.x // dx 为鼠标与球心的水平偏移量
+          dy = mouse.y - ball.y
+          document.addEventListener('mousemove', onMouseMove, false)
+          document.addEventListener('mouseup', onMouseUp, false)
+        }
+      }, false)
+
+      function onMouseMove () {
+        // 鼠标移动时，更新小球坐标
+        ball.x = mouse.x - dx
+        ball.y = mouse.y - dy
+      }
+      function onMouseUp () {
+        // 鼠标松开时，移除鼠标松开事件：mouseup
+        document.removeEventListener('mouseup', onMouseUp, false)
+        document.removeEventListener('mousemove', onMouseMove, false)
+      };
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        ball.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

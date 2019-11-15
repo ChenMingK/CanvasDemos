@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>缓动动画2</title>
+  <script src="../ball.js"></script>
+  <script src="../tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(0, 0)
+      // 定义终点的 x 轴坐标和 y 轴坐标
+      let targetX = cnv.width * (3 / 4)
+      let targetY = cnv.height * (1 / 2)
+      // 定义缓动系数
+      const easing = 0.05;
+
+      (function frame () {
+        window.requestAnimationFrame(frame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        let vx = (targetX - ball.x) * easing
+        let vy = (targetY - ball.y) * easing
+        ball.x += vx
+        ball.y += vy
+
+        ball.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

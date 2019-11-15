@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>抛掷小球</title>
+  <script src="./ball.js"></script>
+  <script src="./tool.js"></script>
+</head>
+<body>
+  <canvas id="canvas" width="480" height="300" style="border: 1px solid gray; display: block; margin: 0 auto;"></canvas>
+  <script>
+    window.onload = function () {
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      let ball = new Ball(cnv.width / 2, cnv.height / 2, 20)
+      ball.fill(cxt)
+      let mouse = tools.getMouse(cnv)
+
+      let isMouseDown = false
+      let dx = 0, dy = 0
+      let oldX, oldY
+      let vx = 0, vy = 0 // 初始速度
+      const gravity = 1.5 // 重力
+      const bounce = -0.8 // 反弹消耗
+
+      cnv.addEventListener('mousedown', function () {
+        // 判断鼠标点击是否落在小球上
+        if (ball.checkMouse(mouse)) {
+          isMouseDown = true
+          oldX = ball.x
+          oldY = ball.y
+          dx = mouse.x - ball.x
+          dy = mouse.y - ball.y
+          document.addEventListener('mousemove', onMouseMove, false)
+          document.addEventListener('mouseup', onMouseUp, false)
+        }
+      }, false)
+
+      function onMouseMove () {
+        // 鼠标移动时，更新小球坐标
+        ball.x = mouse.x - dx
+        ball.y = mouse.y - dy
+
+        // 加入边界限制
+        if (ball.x < ball.radius) {
+          ball.x = ball.radius
+        } else if (ball.x > cnv.width - ball.radius) {
+          ball.x = cnv.width - ball.radius
+        }
+        if (ball.y < ball.radius) {
+          ball.y = ball.radius
+        } else if (ball.y > cnv.height - ball.radius) {
+          ball.y = cnv.height - ball.radius
+        }
+      }
+
+      function onMouseUp () {
+        isMouseDown = false
+        document.removeEventListener('mouseup', onMouseUp, false)
+        document.removeEventListener('mousemove', onMouseMove, false)
+      };
+
+      (function drawFrame () {
+        window.requestAnimationFrame(drawFrame)
+        cxt.clearRect(0, 0, cnv.width, cnv.height)
+
+        if (isMouseDown) {
+          vx = ball.x - oldX
+          vy = ball.y - oldY
+
+          oldX = ball.x
+          oldY = ball.y
+        } else {
+          vy += gravity
+          ball.x += vx
+          ball.y += vy
+          // 边界检测
+          if (ball.x > cnv.width - ball.radius) {
+            ball.x = cnv.width - ball.radius
+            vx = vx * bounce
+          } else if (ball.x < ball.radius) {
+            ball.x = ball.radius
+            vx = vx * bounce
+          }
+
+          // 碰到下边界
+          if (ball.y > canvas.height - ball.radius) {
+            ball.y = canvas.height - ball.radius
+            vy = vy * bounce
+          } else if (ball.y < ball.radius) {
+            ball.y = ball.radius
+            vy = vy * bounce
+          }
+        }
+
+        ball.fill(cxt)
+      })()
+    }
+  </script>
+</body>
+</html>

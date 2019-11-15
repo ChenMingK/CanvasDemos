@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas</title>
+</head>
+<body>
+
+<canvas id="canvas" width="500" height="300" style="border: 1px solid gray; display: block; margin: 0 auto"></canvas>
+<script>
+    window.onload = function(){
+      let cnv = document.getElementById('canvas')
+      let cxt = cnv.getContext('2d')
+
+      cxt.beginPath()
+      cxt.strokeStyle = 'red'
+      cxt.arc(70, 70, 50, 0, -90 * Math.PI / 180, true)
+      cxt.closePath()
+      cxt.stroke()
+
+      cxt.beginPath()
+      cxt.strokeStyle = 'blue'
+      cxt.arc(70, 120, 50, 0, -90 * Math.PI / 180, true)
+      cxt.closePath()
+      cxt.stroke()
+    }
+</script>
+</body>
+</html>
